@@ -32,8 +32,8 @@ export function Footer() {
           <div>
             <h4 className="font-bold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm text-white/70">
-              <li><Link to="/products" className="hover:text-primary transition-colors">Diet Bowls</Link></li>
-              <li><Link to="/products" className="hover:text-primary transition-colors">Meal Plans</Link></li>
+              <li><Link to="/diet-plan" className="hover:text-primary transition-colors">Diet Plan</Link></li>
+              <li><Link to="/diet-bowls" className="hover:text-primary transition-colors">Diet Bowls</Link></li>
               <li><Link to="/about" className="hover:text-primary transition-colors">About Us</Link></li>
             </ul>
           </div>

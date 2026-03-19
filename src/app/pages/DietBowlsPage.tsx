@@ -1,45 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Search, Filter, Star, Flame, Drumstick, ShoppingCart, Sparkles, Calendar, ArrowRight } from "lucide-react";
+import { Search, Filter, Star, Flame, Drumstick, ShoppingCart, Sparkles, ArrowRight } from "lucide-react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
-import { Link, useSearchParams } from "react-router";
+import { Link } from "react-router";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 
-export default function Products() {
-  const [searchParams] = useSearchParams();
-  const typeParam = searchParams.get("type");
+export default function DietBowlsPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const categories = ["All", "Diet Plans", "Weight Loss", "Muscle Gain", "Balanced", "Vegan", "Keto"];
+  const categories = ["All", "Weight Loss", "Muscle Gain", "Balanced", "Vegan", "Keto"];
 
   const products = [
-    {
-      id: "plan-weight-loss",
-      name: "7-Day Weight Loss Journey",
-      category: "Diet Plans",
-      price: 2499,
-      rating: 4.9,
-      calories: "21 Meals",
-      protein: "Nutritionist Guided",
-      image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600",
-      badge: "Best Seller",
-      isPlan: true
-    },
-    {
-      id: "plan-muscle-gain",
-      name: "14-Day Muscle Builder Pro",
-      category: "Diet Plans",
-      price: 4999,
-      rating: 5.0,
-      calories: "42 Meals",
-      protein: "Macro-tracked",
-      image: "https://images.unsplash.com/photo-1547592166-23ac45744a05?w=600",
-      badge: "High Protein",
-      isPlan: true
-    },
     {
       id: 1,
       name: "Protein Power Bowl",
@@ -106,17 +80,8 @@ export default function Products() {
     },
   ];
 
-  // Sync category with URL type param
-  useEffect(() => {
-    if (typeParam === "plans") {
-      setSelectedCategory("Diet Plans");
-    } else if (typeParam === "bowls") {
-      setSelectedCategory("All");
-    }
-  }, [typeParam]);
-
   const filteredProducts = selectedCategory === "All" 
-    ? (typeParam === "bowls" ? products.filter(p => !p.isPlan) : products)
+    ? products 
     : products.filter(p => p.category === selectedCategory);
 
   return (
@@ -141,13 +106,13 @@ export default function Products() {
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-6"
           >
             <Sparkles className="w-4 h-4" />
-            Personalized Nutrition
+            Order Anytime
           </motion.div>
           <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6 font-display">
-            Our <span className="text-primary italic">Menu</span>
+            Diet <span className="text-primary italic">Bowls</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Choose from our comprehensive diet plans or individual chef-crafted healthy bowls.
+            Fresh, chef-crafted healthy bowls delivered to your doorstep. Order individual meals to fit your schedule.
           </p>
         </motion.div>
 
@@ -162,7 +127,7 @@ export default function Products() {
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
             <Input
               type="search"
-              placeholder="Search plans or bowls..."
+              placeholder="Search healthy bowls..."
               className="pl-14 h-14 rounded-2xl border-border/50 bg-white shadow-sm focus:ring-primary/20 transition-all"
             />
           </div>
@@ -198,68 +163,67 @@ export default function Products() {
 
         {/* Products Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-          {filteredProducts.map((product, index) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-              whileHover={{ y: -12 }}
-              className="group bg-white/80 backdrop-blur-sm rounded-[2.5rem] overflow-hidden border border-border/50 shadow-sm hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500"
-            >
-              <Link to={`/product/${product.id}`}>
-                <div className="relative overflow-hidden aspect-[4/3]">
-                  <ImageWithFallback
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  
-                  {product.badge && (
-                    <div className="absolute top-6 right-6 bg-accent text-white px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg shadow-accent/20">
-                      {product.badge}
-                    </div>
-                  )}
-                  {product.isPlan && (
-                    <div className="absolute top-6 left-6 bg-primary text-white px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg shadow-primary/20">
-                      Subscription Plan
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-8">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="min-w-0">
-                      <h3 className="font-bold text-xl md:text-2xl text-foreground font-display group-hover:text-primary transition-colors truncate">
-                        {product.name}
-                      </h3>
-                      <p className="text-[10px] md:text-sm font-bold text-primary/60 uppercase tracking-widest mt-1">{product.category}</p>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-xl md:text-2xl font-bold text-foreground font-display">₹{product.price}</div>
-                    </div>
+          <AnimatePresence mode="popLayout">
+            {filteredProducts.map((product, index) => (
+              <motion.div
+                key={product.id}
+                layout
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                whileHover={{ y: -12 }}
+                className="group bg-white/80 backdrop-blur-sm rounded-[2.5rem] overflow-hidden border border-border/50 shadow-sm hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500"
+              >
+                <Link to={`/product/${product.id}`}>
+                  <div className="relative overflow-hidden aspect-[4/3]">
+                    <ImageWithFallback
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    {product.badge && (
+                      <div className="absolute top-6 right-6 bg-accent text-white px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg shadow-accent/20">
+                        {product.badge}
+                      </div>
+                    )}
                   </div>
 
-                  <div className="flex items-center gap-6 text-sm font-bold text-muted-foreground mb-8">
-                    <div className="flex items-center gap-2">
-                       {product.isPlan ? <Calendar className="w-4 h-4 text-primary" /> : <Flame className="w-4 h-4 text-orange-500" />}
-                       <span className="tracking-tight">{product.calories}</span>
+                  <div className="p-8">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="min-w-0">
+                        <h3 className="font-bold text-xl md:text-2xl text-foreground font-display group-hover:text-primary transition-colors truncate">
+                          {product.name}
+                        </h3>
+                        <p className="text-[10px] md:text-sm font-bold text-primary/60 uppercase tracking-widest mt-1">{product.category}</p>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-xl md:text-2xl font-bold text-foreground font-display">₹{product.price}</div>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                       {product.isPlan ? <Star className="w-4 h-4 text-accent" /> : <Drumstick className="w-4 h-4 text-emerald-600" />}
-                       <span className="tracking-tight">{product.protein}</span>
-                    </div>
-                  </div>
 
-                  <Button className="w-full h-14 bg-primary hover:bg-primary/90 text-white rounded-2xl font-bold group-hover:gap-4 transition-all shadow-lg shadow-primary/10">
-                    {product.isPlan ? "Select Plan" : "Add to Cart"}
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+                    <div className="flex items-center gap-6 text-sm font-bold text-muted-foreground mb-8">
+                      <div className="flex items-center gap-2">
+                         <Flame className="w-4 h-4 text-orange-500" />
+                         <span className="tracking-tight">{product.calories}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                         <Drumstick className="w-4 h-4 text-emerald-600" />
+                         <span className="tracking-tight">{product.protein}</span>
+                      </div>
+                    </div>
+
+                    <Button className="w-full h-14 bg-primary hover:bg-primary/90 text-white rounded-2xl font-bold group-hover:gap-4 transition-all shadow-lg shadow-primary/10">
+                      Add to Cart
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       </main>
 

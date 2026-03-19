@@ -8,7 +8,8 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { name: "Diet Bowls", href: "/products" },
+    { name: "Diet Plan", href: "/diet-plan" },
+    { name: "Diet Bowls", href: "/diet-bowls" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" }
   ];

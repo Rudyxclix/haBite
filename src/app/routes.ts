@@ -9,6 +9,8 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Products from "./pages/Products";
+import DietPlansPage from "./pages/DietPlansPage";
+import DietBowlsPage from "./pages/DietBowlsPage";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
@@ -63,6 +65,14 @@ export const router = createBrowserRouter([
   {
     path: "/products",
     Component: Products,
+  },
+  {
+    path: "/diet-plan",
+    Component: DietPlansPage,
+  },
+  {
+    path: "/diet-bowls",
+    Component: DietBowlsPage,
   },
   {
     path: "/product/:id",
