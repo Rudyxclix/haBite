@@ -173,13 +173,13 @@ export function Header() {
               ))}
             </nav>
 
-            <div className="p-8 border-t border-border/10 space-y-6">
-              <Link to="/products" onClick={() => setIsMobileMenuOpen(false)}>
+            <div className="p-8 border-t border-border/10 space-y-4">
+              <Link to="/products" onClick={() => setIsMobileMenuOpen(false)} className="block">
                 <Button className="w-full h-16 bg-primary text-white rounded-2xl text-xl font-bold text-center flex items-center justify-center">
                   Order Now
                 </Button>
               </Link>
-              <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
+              <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className="block">
                 <Button variant="outline" className="w-full h-16 rounded-2xl text-lg font-bold border-2">
                   Sign In
                 </Button>
