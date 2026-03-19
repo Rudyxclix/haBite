@@ -1,11 +1,27 @@
 import { Menu, ShoppingBag, User, X } from "lucide-react";
 import { Button } from "./ui/button";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "motion/react";
 import { Link } from "react-router";
 import { useState } from "react";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    // Only apply to mobile
+    if (window.innerWidth < 768) {
+      if (latest > previous && latest > 150) {
+        setHidden(true); // Hide on scroll down
+      } else if (latest < previous) {
+        setHidden(false); // Reveal on scroll up
+      }
+    } else {
+      setHidden(false); // Always show on desktop
+    }
+  });
 
   const navLinks = [
     { name: "Diet Plan", href: "/diet-plan" },
@@ -15,128 +31,163 @@ export function Header() {
   ];
 
   return (
-    <motion.header 
-      className="sticky top-0 bg-white/80 md:bg-white/95 backdrop-blur-md md:backdrop-blur-xl z-50 border-b border-border shadow-sm transition-all"
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <div className="container mx-auto px-4 py-2 md:py-4 flex items-center justify-between max-w-7xl">
-        <Link to="/" className="flex items-center group -ml-8">
-          <motion.div 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="h-12 md:h-20 w-auto flex items-center overflow-visible"
-          >
-            <img 
-              src="/assets/logo/habite-logo.png" 
-              alt="Habite Logo" 
-              className="h-full w-auto object-contain scale-[2.8] origin-left"
-            />
-          </motion.div>
-        </Link>
-        
-        <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((item, index) => (
+    <>
+      <motion.header 
+        variants={{
+          visible: { y: 0 },
+          hidden: { y: "-100%" },
+        }}
+        animate={hidden ? "hidden" : "visible"}
+        transition={{ duration: 0.35, ease: "easeInOut" }}
+        className="sticky top-0 bg-white/80 md:bg-white/95 backdrop-blur-md md:backdrop-blur-xl z-50 border-b border-border shadow-sm transition-all"
+      >
+        <div className="container mx-auto px-4 py-1.5 md:py-3 flex items-center justify-between max-w-7xl">
+          <Link to="/" className="flex items-center group -ml-8">
             <motion.div 
-              key={item.name}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="h-9 md:h-18 w-auto flex items-center overflow-visible"
             >
-              <Link
-                to={item.href}
-                className="text-sm text-foreground hover:text-primary transition-colors relative group"
+              <img 
+                src="/assets/logo/habite-logo.png" 
+                alt="Habite Logo" 
+                className="h-full w-auto object-contain scale-[2.8] origin-left"
+              />
+            </motion.div>
+          </Link>
+          
+          <nav className="hidden md:flex items-center gap-8">
+            {navLinks.map((item, index) => (
+              <motion.div 
+                key={item.name}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                {item.name}
-                <motion.span 
-                  className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"
-                />
-              </Link>
-            </motion.div>
-          ))}
-        </nav>
-        
-        <div className="flex items-center gap-3">
-          <Link to="/cart">
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <Button variant="ghost" size="icon" className="hidden md:flex">
-                <ShoppingBag className="w-5 h-5" />
-              </Button>
-            </motion.div>
-          </Link>
-          <Link to="/login">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button variant="outline" className="hidden md:flex rounded-full px-5 border-2">
-                <User className="w-4 h-4 mr-2" />
-                Sign In
-              </Button>
-            </motion.div>
-          </Link>
-          <Link to="/products">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button className="hidden md:flex bg-primary hover:bg-primary/90 text-white rounded-full px-6">
-                Order Now
-              </Button>
-            </motion.div>
-          </Link>
+                <Link
+                  to={item.href}
+                  className="text-sm text-foreground hover:text-primary transition-colors relative group font-bold tracking-tight"
+                >
+                  {item.name}
+                  <motion.span 
+                    className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"
+                  />
+                </Link>
+              </motion.div>
+            ))}
+          </nav>
+          
+          <div className="flex items-center gap-2">
+            <Link to="/cart">
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <Button variant="ghost" size="icon" className="hidden md:flex">
+                  <ShoppingBag className="w-5 h-5 text-foreground" />
+                </Button>
+              </motion.div>
+            </Link>
+            <Link to="/login" className="hidden md:block">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button variant="outline" className="rounded-full px-5 border-2 text-sm font-bold">
+                  Sign In
+                </Button>
+              </motion.div>
+            </Link>
+            <Link to="/products" className="hidden md:block">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button className="bg-primary hover:bg-primary/90 text-white rounded-full px-6 text-sm font-bold">
+                  Order Now
+                </Button>
+              </motion.div>
+            </Link>
 
-          <button 
-            className="md:hidden p-3 -mr-2 bg-secondary/50 rounded-2xl hover:bg-secondary transition-colors"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X className="w-8 h-8 text-foreground" /> : <Menu className="w-8 h-8 text-foreground" />}
-          </button>
+            <button 
+              className="md:hidden flex flex-col gap-1.5 p-3.5 -mr-1 items-end group bg-white shadow-sm border border-border/50 rounded-2xl active:scale-95 transition-all"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              <motion.div 
+                animate={isMobileMenuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
+                className="w-7 h-0.5 bg-foreground rounded-full"
+              />
+              <motion.div 
+                animate={isMobileMenuOpen ? { opacity: 0, x: 20 } : { opacity: 1, x: 0 }}
+                className="w-4 h-0.5 bg-primary rounded-full"
+              />
+              <motion.div 
+                animate={isMobileMenuOpen ? { rotate: -45, y: -8, width: 28 } : { rotate: 0, y: 0, width: 18 }}
+                className="w-[18px] h-0.5 bg-foreground rounded-full"
+              />
+            </button>
+          </div>
         </div>
-      </div>
+      </motion.header>
 
-      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden border-t border-border bg-white overflow-hidden"
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="fixed inset-0 z-[9999] md:hidden flex flex-col shadow-2xl"
+            style={{ backgroundColor: "white", opacity: 1 }}
           >
-            <div className="p-6 space-y-6">
-              <nav className="flex flex-col gap-4">
-                {navLinks.map((item) => (
+            <div className="flex justify-between items-center px-6 py-4 border-b border-border/10">
+              <img 
+                src="/assets/logo/habite-logo.png" 
+                alt="Habite Logo" 
+                className="h-10 w-auto object-contain scale-[2] origin-left ml-4"
+              />
+              <button 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-3 bg-secondary/50 rounded-2xl"
+              >
+                <X className="w-8 h-8 text-foreground" />
+              </button>
+            </div>
+            
+            <nav className="flex-grow flex flex-col justify-center px-8 space-y-8">
+              {navLinks.map((item, index) => (
+                <motion.div
+                  key={item.name}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 + index * 0.1 }}
+                >
                   <Link
-                    key={item.name}
                     to={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2 border-b border-border/50"
+                    className="text-5xl font-bold text-foreground hover:text-primary transition-colors font-display"
                   >
                     {item.name}
                   </Link>
-                ))}
-              </nav>
-              <div className="flex flex-col gap-3 pt-2">
-                <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button variant="outline" className="w-full rounded-full py-6 border-2">
-                    <User className="w-4 h-4 mr-2" />
-                    Sign In
-                  </Button>
-                </Link>
-                <Button className="w-full bg-primary text-white rounded-full py-6">
+                </motion.div>
+              ))}
+            </nav>
+
+            <div className="p-8 border-t border-border/10 space-y-4">
+              <Link to="/products" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button className="w-full h-16 bg-primary text-white rounded-2xl text-xl font-bold text-center flex items-center justify-center">
                   Order Now
                 </Button>
-              </div>
+              </Link>
+              <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button variant="outline" className="w-full h-16 rounded-2xl text-lg font-bold border-2">
+                  Sign In
+                </Button>
+              </Link>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </>
   );
 }
