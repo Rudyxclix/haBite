@@ -16,17 +16,17 @@ export function Header() {
 
   return (
     <motion.header 
-      className="sticky top-0 bg-white/80 md:bg-white/95 backdrop-blur-md md:backdrop-blur-xl z-50 border-b border-border shadow-sm"
+      className="sticky top-0 bg-white/80 md:bg-white/95 backdrop-blur-md md:backdrop-blur-xl z-50 border-b border-border shadow-sm transition-all"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between max-w-7xl">
+      <div className="container mx-auto px-4 py-2 md:py-4 flex items-center justify-between max-w-7xl">
         <Link to="/" className="flex items-center group -ml-8">
           <motion.div 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="h-16 md:h-20 w-auto flex items-center overflow-visible"
+            className="h-12 md:h-20 w-auto flex items-center overflow-visible"
           >
             <img 
               src="/assets/logo/habite-logo.png" 
