@@ -56,7 +56,7 @@ export default function Contact() {
   ];
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-background font-sans">
       {/* Background Organic Shapes */}
       <div className="fixed top-[-10%] left-[-5%] w-[50vw] h-[50vw] bg-primary/5 organic-shape blur-3xl -z-0 animate-pulse"></div>
       <div className="fixed bottom-[-10%] right-[-5%] w-[40vw] h-[40vw] bg-accent/5 organic-shape blur-3xl -z-0 animate-pulse delay-700"></div>

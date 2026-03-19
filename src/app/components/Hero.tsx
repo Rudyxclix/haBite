@@ -111,9 +111,10 @@ export function Hero() {
             style={{ y: imageY }}
           >
             <motion.div 
-              className="absolute inset-0 bg-primary/20 rounded-full blur-3xl"
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute inset-0 bg-primary/20 rounded-full blur-2xl md:blur-3xl"
+              style={{ willChange: "transform" }}
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
             ></motion.div>
             <motion.div 
               className="relative rounded-3xl overflow-hidden shadow-2xl"

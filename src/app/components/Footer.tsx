@@ -6,15 +6,16 @@ export function Footer() {
     <footer id="contact" className="bg-foreground text-white py-12 md:py-16">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12">
-          <div className="space-y-4">
-            <Link to="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-                <span className="text-white font-bold text-lg">H</span>
-              </div>
-              <span className="font-bold text-xl">Habite</span>
+          <div className="space-y-6">
+            <Link to="/" className="inline-block -ml-8 overflow-visible">
+               <img 
+                 src="/assets/logo/habite-logo.png" 
+                 alt="Habite Logo" 
+                 className="h-24 w-auto object-contain scale-[2.5] origin-left" 
+               />
             </Link>
-            <p className="text-white/70 text-sm">
-              The Art of Healthy Eating. Premium diet bowls and meal plans for your body goals.
+            <p className="text-white/60 text-sm leading-relaxed max-w-xs px-2 mt-8">
+              Personalized diet plans and fresh healthy bowls delivered to your doorstep in Kozhikode.
             </p>
             <div className="flex items-center gap-3">
               <a href="https://www.instagram.com/habiteofficial/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 hover:bg-primary transition-colors flex items-center justify-center">

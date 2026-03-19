@@ -16,22 +16,23 @@ export function Header() {
 
   return (
     <motion.header 
-      className="sticky top-0 bg-white/90 backdrop-blur-md z-50 border-b border-border"
+      className="sticky top-0 bg-white/80 md:bg-white/95 backdrop-blur-md md:backdrop-blur-xl z-50 border-b border-border shadow-sm"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="container mx-auto px-4 py-4 flex items-center justify-between max-w-7xl">
-        <Link to="/">
+        <Link to="/" className="flex items-center group -ml-8">
           <motion.div 
-            className="flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3 }}
+            whileTap={{ scale: 0.95 }}
+            className="h-16 md:h-20 w-auto flex items-center overflow-visible"
           >
-            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-              <span className="text-white font-bold">H</span>
-            </div>
-            <span className="font-bold text-lg text-foreground">Habite</span>
+            <img 
+              src="/assets/logo/habite-logo.png" 
+              alt="Habite Logo" 
+              className="h-full w-auto object-contain scale-[2.8] origin-left"
+            />
           </motion.div>
         </Link>
         
@@ -57,14 +58,16 @@ export function Header() {
         </nav>
         
         <div className="flex items-center gap-3">
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <Button variant="ghost" size="icon" className="hidden md:flex">
-              <ShoppingBag className="w-5 h-5" />
-            </Button>
-          </motion.div>
+          <Link to="/cart">
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <Button variant="ghost" size="icon" className="hidden md:flex">
+                <ShoppingBag className="w-5 h-5" />
+              </Button>
+            </motion.div>
+          </Link>
           <Link to="/login">
             <motion.div
               whileHover={{ scale: 1.05 }}
@@ -76,23 +79,23 @@ export function Header() {
               </Button>
             </motion.div>
           </Link>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Button className="hidden md:flex bg-primary hover:bg-primary/90 text-white rounded-full px-6">
-              Order Now
-            </Button>
-          </motion.div>
+          <Link to="/products">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button className="hidden md:flex bg-primary hover:bg-primary/90 text-white rounded-full px-6">
+                Order Now
+              </Button>
+            </motion.div>
+          </Link>
 
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="md:hidden"
+          <button 
+            className="md:hidden p-3 -mr-2 bg-secondary/50 rounded-2xl hover:bg-secondary transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </Button>
+            {isMobileMenuOpen ? <X className="w-8 h-8 text-foreground" /> : <Menu className="w-8 h-8 text-foreground" />}
+          </button>
         </div>
       </div>
 

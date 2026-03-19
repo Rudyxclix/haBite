@@ -31,7 +31,7 @@ export default function DietPlansPage() {
       rating: 5.0,
       meals: "42 Meals / Week",
       protein: "Macro-tracked",
-      image: "https://images.unsplash.com/photo-1547592166-23ac45744a05?w=600",
+      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600",
       badge: "High Protein",
       description: "High-protein, nutrient-dense meals with surplus calories for muscle growth."
     },
@@ -94,10 +94,10 @@ export default function DietPlansPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-background font-sans">
       {/* Background Blobs */}
-      <div className="fixed top-[-10%] right-[-5%] w-[40vw] h-[40vw] bg-primary/5 organic-shape blur-3xl -z-0 animate-pulse"></div>
-      <div className="fixed bottom-[-10%] left-[-5%] w-[35vw] h-[35vw] bg-accent/5 organic-shape blur-3xl -z-0 animate-pulse delay-700"></div>
+      <div className="fixed top-[-10%] right-[-5%] w-[40vw] h-[40vw] bg-primary/5 organic-shape blur-xl md:blur-3xl -z-0 animate-pulse opacity-40 md:opacity-100"></div>
+      <div className="fixed bottom-[-10%] left-[-5%] w-[35vw] h-[35vw] bg-accent/5 organic-shape blur-xl md:blur-3xl -z-0 animate-pulse delay-700 opacity-40 md:opacity-100"></div>
 
       <Header />
       
