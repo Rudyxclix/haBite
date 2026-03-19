@@ -35,7 +35,6 @@ export function Footer() {
               <li><Link to="/products" className="hover:text-primary transition-colors">Diet Bowls</Link></li>
               <li><Link to="/products" className="hover:text-primary transition-colors">Meal Plans</Link></li>
               <li><Link to="/about" className="hover:text-primary transition-colors">About Us</Link></li>
-              <li><Link to="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
             </ul>
           </div>
           

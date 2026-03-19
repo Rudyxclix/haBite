@@ -1,9 +1,18 @@
-import { Menu, ShoppingBag, User } from "lucide-react";
+import { Menu, ShoppingBag, User, X } from "lucide-react";
 import { Button } from "./ui/button";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-router";
+import { useState } from "react";
 
 export function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const navLinks = [
+    { name: "Diet Bowls", href: "/products" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" }
+  ];
+
   return (
     <motion.header 
       className="sticky top-0 bg-white/90 backdrop-blur-md z-50 border-b border-border"
@@ -26,12 +35,7 @@ export function Header() {
         </Link>
         
         <nav className="hidden md:flex items-center gap-8">
-          {[
-            { name: "Diet Bowls", href: "/products" },
-            { name: "About", href: "/about" },
-            { name: "FAQ", href: "/faq" },
-            { name: "Contact", href: "/contact" }
-          ].map((item, index) => (
+          {navLinks.map((item, index) => (
             <motion.div 
               key={item.name}
               initial={{ opacity: 0, y: -20 }}
@@ -79,11 +83,56 @@ export function Header() {
               Order Now
             </Button>
           </motion.div>
-          <Button variant="ghost" size="icon" className="md:hidden">
-            <Menu className="w-6 h-6" />
+
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="md:hidden"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </Button>
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="md:hidden border-t border-border bg-white overflow-hidden"
+          >
+            <div className="p-6 space-y-6">
+              <nav className="flex flex-col gap-4">
+                {navLinks.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2 border-b border-border/50"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </nav>
+              <div className="flex flex-col gap-3 pt-2">
+                <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button variant="outline" className="w-full rounded-full py-6 border-2">
+                    <User className="w-4 h-4 mr-2" />
+                    Sign In
+                  </Button>
+                </Link>
+                <Button className="w-full bg-primary text-white rounded-full py-6">
+                  Order Now
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 }
